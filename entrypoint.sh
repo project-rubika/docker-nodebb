@@ -33,6 +33,15 @@ else
     && ln -s /data/uploads /usr/src/app/public/uploads
 fi
 
+if [ -e /data/plugins ]; then
+    # iterate through the /data/plugins folder and ln them to /usr/src/app/node_modules
+    for dir in /data/plugins/*/
+    do
+        dir=${dir%*/}
+        ln -s /data/plugins/${dir##*/} /usr/src/app/node_modules/${dir##*/}
+    done
+fi
+
 if [ ! -e /data/package.json ]; then
     mv /usr/src/app/package.json /data/package.json \
     && ln -s /data/package.json /usr/src/app/package.json
